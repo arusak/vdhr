@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/vdhr/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/vdhr/static/js/main.6ad5eb2d.chunk.js",
+    "main.js.map": "/vdhr/static/js/main.6ad5eb2d.chunk.js.map",
+    "runtime-main.js": "/vdhr/static/js/runtime-main.d6a5f21a.js",
+    "runtime-main.js.map": "/vdhr/static/js/runtime-main.d6a5f21a.js.map",
+    "static/js/2.c7a74e89.chunk.js": "/vdhr/static/js/2.c7a74e89.chunk.js",
+    "static/js/2.c7a74e89.chunk.js.map": "/vdhr/static/js/2.c7a74e89.chunk.js.map",
+    "index.html": "/vdhr/index.html",
+    "precache-manifest.d6bc08915c262da48f948e0a46359d9c.js": "/vdhr/precache-manifest.d6bc08915c262da48f948e0a46359d9c.js",
+    "service-worker.js": "/vdhr/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/vdhr/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.c7a74e89.chunk.js.LICENSE.txt": "/vdhr/static/js/2.c7a74e89.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d6a5f21a.js",
+    "static/js/2.c7a74e89.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.6ad5eb2d.chunk.js"
+  ]
+}
