@@ -1,21 +1,19 @@
 import React from 'react';
-import {
-	LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { Level } from '../services/levels.model';
 
 export type LevelsByYearMap = Map<number, Level[]>;
 export type LevelsByDate = { date: string, [year: string]: any }
-type ChartComponentProps = { data: LevelsByDate[], years: string[] };
+type ChartComponentProps = { data: LevelsByDate[], years: string[], width: number, height: number };
 
 const colors = ['#5BC0EB', '#FDE74C', '#9BC53D', '#C3423F', '#404E4D', '#19535F', '#0B7A75', '#7B2D26', '#F1D302'];
 
 export const ChartComponent = (props: ChartComponentProps) => {
-	const { data, years } = props;
-	return <>
+	const { data, years, width, height } = props;
+	return (
 		<LineChart
-			width={800}
-			height={400}
+			width={width}
+			height={height}
 			data={data}
 		>
 			<CartesianGrid strokeDasharray="1 1" />
@@ -35,5 +33,5 @@ export const ChartComponent = (props: ChartComponentProps) => {
 			))
 			}
 		</LineChart>
-	</>;
+	);
 };

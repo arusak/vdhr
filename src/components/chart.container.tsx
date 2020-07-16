@@ -1,4 +1,5 @@
 import React from 'react';
+import  AutoSizer  from 'react-virtualized-auto-sizer';
 import { DataService, DataServiceContext } from '../services/data.service.context';
 import { Level } from '../services/levels.model';
 import { ChartComponent, LevelsByDate } from './chart.component';
@@ -40,6 +41,13 @@ export class Chart extends React.Component<ChartProps, ChartState> {
 			return res;
 		}, []);
 
-		return <ChartComponent data={chartData} years={years.map(String)} />;
+		return (
+			<AutoSizer>
+				{({ width, height }) => <ChartComponent data={chartData}
+				                                        years={years.map(String)}
+				                                        height={height}
+				                                        width={width} />}
+			</AutoSizer>
+		);
 	}
 }
