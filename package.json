@@ -1,6 +1,9 @@
 {
   "name": "vdhr",
   "version": "1.0.0",
+  "homepage": "http://arusak.github.io/vdhr",
+  "author": "Anton Rusak",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -19,6 +22,8 @@
     "typescript-memoize": "0.0.4"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
