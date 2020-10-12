@@ -9,9 +9,10 @@ function App() {
 	const defaultYear = String(getDefaultYear());
 
 	return (
-		<div className="App" style={{ display: 'flex', flex: 1 }}>
+		<div className="App">
+			<h1>Уровень воды в Рыбинском вдхр.</h1>
 			<DataServiceContext.Provider value={hgraphDataService}>
-				<div style={{ display: 'flex', flex: 1 }}>
+				<div className="interface">
 					<div style={{ width: '100%' }}>
 						<Chart years={years} />
 					</div>
