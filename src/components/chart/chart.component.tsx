@@ -2,6 +2,9 @@ import React from 'react';
 import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
 import {Level} from '../../services/levels.model';
 
+import styles from './chart.module.sass';
+import {labelFormatter} from './label-formatter';
+
 export type LevelsByYearMap = Map<number, Level[]>;
 export type LevelsByDate = { date: string, [year: string]: any }
 type ChartComponentProps = { data: LevelsByDate[], years: string[], width: number, height: number };
@@ -24,18 +27,20 @@ const getYearColor = (year: string) => colors[year] || '#000000';
 
 export const ChartComponent = (props: ChartComponentProps) => {
     const {data, years, width, height} = props;
+    const ticks = Array(12).fill(1).map((_, idx) => '01.' + Number(idx + 1).toLocaleString(undefined, {minimumIntegerDigits: 2}));
     return (
         <LineChart
+            className={styles.lineChart}
             width={width}
             height={height}
             data={data}
         >
             <CartesianGrid strokeDasharray="1 1"/>
             <XAxis dataKey="date"
-                   ticks={Array(12).fill(1).map((_, idx) => '01.' + Number(idx + 1).toLocaleString(undefined, {minimumIntegerDigits: 2}))}/>
+                   ticks={ticks}/>
             {/*<YAxis domain={[(min: number) => Math.round(min * 10 - 2) / 10, (max: number) => Math.round(max * 10 + 2) / 10]} />*/}
             <YAxis domain={[98, 102]} tickCount={11}/>
-            <Tooltip labelStyle={{textAlign: 'left'}} contentStyle={{background: 'white', padding: '0.5rem', borderRadius: '0.5rem', border: 'thin solid #ddd'}} itemStyle={{background: 'none'}}/>
+            <Tooltip labelFormatter={labelFormatter}/>
             <Legend/>
             {years.map((year) => (
                 <Line key={year}

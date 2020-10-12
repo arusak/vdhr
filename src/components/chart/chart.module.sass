@@ -1,0 +1,42 @@
+.lineChart
+  cursor: crosshair !important
+
+.lineChart :global
+  .recharts-tooltip-wrapper
+    .recharts-default-tooltip
+      background: white !important
+      padding: 0 !important
+      border-radius: 0.5rem !important
+      border: none !important
+      box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15)
+      position: relative
+
+      &:before
+        position: absolute
+        top: 50%
+        left: -1rem
+        content: ''
+        border: 0.5rem solid transparent
+        border-right-color: white
+
+    .recharts-tooltip-label
+      text-align: left !important
+      padding: 0.5rem 1rem
+
+    .recharts-tooltip-item-list
+      padding: 0.5rem 0 !important
+
+    .recharts-tooltip-item
+      display: flex !important
+      align-items: center
+      padding: 0.5em 1rem
+
+      .recharts-tooltip-item-name
+        font-size: 0.75em !important
+        margin-right: 0.5em
+
+      .recharts-tooltip-item-separator
+        display: none !important
+
+      .recharts-tooltip-item-value
+        font-weight: bold

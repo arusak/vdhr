@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 
 import styles from './App.module.sass';
-import {Chart} from './components/chart/chart.container';
-import {YearsSelection} from './components/controls/years-selection.component';
-import {DataServiceContext, hgraphDataService} from './services/data.service.context';
-import {getDefaultYear} from './services/date-time.utils';
+import {Chart, YearsSelection} from './components';
+import {DataServiceContext, getDefaultYear, hgraphDataService} from './services';
 
 function App() {
     const [years, setYears] = useState<string[]>([]);
