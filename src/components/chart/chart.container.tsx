@@ -1,8 +1,7 @@
 import React from 'react';
-import  AutoSizer  from 'react-virtualized-auto-sizer';
-import { DataService, DataServiceContext } from '../services/data.service.context';
-import { Level } from '../services/levels.model';
-import { ChartComponent, LevelsByDate } from './chart.component';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import {DataService, DataServiceContext, Level} from '../../services';
+import {ChartComponent, LevelsByDate} from './chart.component';
 
 type ChartProps = { years: string[] };
 type ChartState = { levels: Level[] };

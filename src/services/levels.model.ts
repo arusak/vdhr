@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
 
 export type Level = {
-	date: DateTime,
-	level: number
+    date: DateTime,
+    level: number
 }
