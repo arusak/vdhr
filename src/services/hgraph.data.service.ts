@@ -1,7 +1,7 @@
 import {DateTime} from 'luxon';
 import {Memoize} from 'typescript-memoize';
 import {LevelsByYearMap} from '../components/chart/chart.component';
-import data from '../data/all.json';
+import archive from '../data/ryb2019.json';
 import {DataService} from './data.service.context';
 import {Level} from './levels.model';
 
@@ -9,12 +9,15 @@ type HgraphDataItem = {
     date: string;
     items: { [key: string]: number[] };
 }
+
+type Archive = { [key: string]: number }
+
 const FIRST_YEAR = 2014;
 const LAST_CACHE_YEAR = 2019;
 
 export class HgraphDataService implements DataService {
     private static getCachedData(): Level[] {
-        return rawDataToSortedLevels(data, FIRST_YEAR, LAST_CACHE_YEAR);
+        return cachedDataToSortedLevels(archive, FIRST_YEAR, LAST_CACHE_YEAR);
     };
 
     private static async getLiveData(): Promise<Level[]> {
@@ -42,8 +45,7 @@ export class HgraphDataService implements DataService {
     }
 }
 
-function rawDataToSortedLevels(raw: any, startYear: number, endYear: number) {
-    const typedData = raw as HgraphDataItem[];
+function rawDataToSortedLevels(typedData: HgraphDataItem[], startYear: number, endYear: number) {
     const rybinskData = typedData.reduce((map, item) => {
         const ryb = item.items['Рыбинское'];
         if (ryb) {
@@ -55,6 +57,19 @@ function rawDataToSortedLevels(raw: any, startYear: number, endYear: number) {
 
     const convertedArray = dataArray.map(([date, level]) => ({
         date: DateTime.fromFormat(date, 'dd.MM.yyyy'),
+        level,
+    })).filter(item => item.date.isValid).filter(item => item.date.year >= startYear && item.date.year <= endYear);
+
+    return convertedArray.sort((o1, o2) => {
+        return o1.date.diff(o2.date).toObject().milliseconds || 0;
+    });
+}
+
+function cachedDataToSortedLevels(archive: Archive, startYear: number, endYear: number) {
+    const dataArray = Array.from(Object.entries(archive));
+
+    const convertedArray = dataArray.map(([date, level]) => ({
+        date: DateTime.fromFormat(date, 'yyyy-MM-dd'),
         level,
     })).filter(item => item.date.isValid).filter(item => item.date.year >= startYear && item.date.year <= endYear);
 
