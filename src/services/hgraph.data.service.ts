@@ -1,9 +1,10 @@
-import {DateTime} from 'luxon';
-import {Memoize} from 'typescript-memoize';
-import {LevelsByYearMap} from '../components/chart/chart.component';
+import { DateTime } from 'luxon';
+import { Memoize } from 'typescript-memoize';
+import { LevelsByYearMap } from '../components/chart/chart.component';
 import archive from '../data/ryb2019.json';
-import {DataService} from './data.service.context';
-import {Level} from './levels.model';
+import archive2020 from '../data/ryb2020.json';
+import { DataService } from './data.service.context';
+import { Level } from './levels.model';
 
 type HgraphDataItem = {
     date: string;
@@ -12,18 +13,17 @@ type HgraphDataItem = {
 
 type Archive = { [key: string]: number }
 
-const FIRST_YEAR = 2014;
-const LAST_CACHE_YEAR = 2019;
-
 export class HgraphDataService implements DataService {
     private static getCachedData(): Level[] {
-        return cachedDataToSortedLevels(archive, FIRST_YEAR, LAST_CACHE_YEAR);
+        const until2020 = cachedDataToSortedLevels(archive, 2014, 2019);
+        const in2020 = cachedDataToSortedLevels(archive2020, 2020, 2020);
+        return [...until2020, ...in2020];
     };
 
     private static async getLiveData(): Promise<Level[]> {
-        const response = await fetch('http://hgraph.ru/api/year/2020');
+        const response = await fetch('http://hgraph.ru/api/year/2021');
         const data = await response.json();
-        return rawDataToSortedLevels(data, 2020, 2020);
+        return rawDataToSortedLevels(data, 2021, 2021);
     }
 
     @Memoize()
