@@ -5,7 +5,7 @@ object-assign
 */
 
 /*!
-  Copyright (c) 2017 Jed Watson.
+  Copyright (c) 2018 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
@@ -44,7 +44,9 @@ object-assign
 
 /*! Production::    css_value : VWS */
 
-/*! Production::    css_variable : CSS_VAR */
+/*! Production::    css_variable : CSS_VAR LPAREN CSS_CPROP COMMA math_expression RPAREN */
+
+/*! Production::    css_variable : CSS_VAR LPAREN CSS_CPROP RPAREN */
 
 /*! Production::    expression : math_expression EOF */
 
@@ -73,6 +75,8 @@ object-assign
 /*! Production::    value : SUB NUMBER */
 
 /*! Rule::       $ */
+
+/*! Rule::       (--[0-9a-z-A-Z-]*) */
 
 /*! Rule::       ([0-9]+(\.[0-9]*)?|\.[0-9]+)% */
 
@@ -132,7 +136,9 @@ object-assign
 
 /*! Rule::       (calc) */
 
-/*! Rule::       (var\([^\)]*\)) */
+/*! Rule::       (var) */
+
+/*! Rule::       , */
 
 /*! Rule::       - */
 
@@ -159,7 +165,16 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.13.1
+/** @license React v16.10.2
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.14.0
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -168,7 +183,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.13.1
+/** @license React v16.14.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
