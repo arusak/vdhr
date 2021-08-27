@@ -5,6 +5,7 @@ import archive from '../data/ryb2019.json';
 import archive2020 from '../data/ryb2020.json';
 import { DataService } from './data.service.context';
 import { Level } from './levels.model';
+import { statisticService } from './statistic.service';
 
 type HgraphDataItem = {
     date: string;
@@ -28,7 +29,9 @@ export class HgraphDataService implements DataService {
 
     @Memoize()
     getLevels(): Promise<Level[]> {
-        return HgraphDataService.getLiveData().then(liveData => HgraphDataService.getCachedData().concat(liveData));
+        return HgraphDataService.getLiveData()
+            .then(liveData => HgraphDataService.getCachedData().concat(liveData))
+            .then(statisticService.smoothenLevels);
     }
 
     @Memoize()
