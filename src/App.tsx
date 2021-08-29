@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import styles from './App.module.sass';
-import {Chart, YearsSelection} from './components';
-import {DataServiceContext, getDefaultYear, hgraphDataService} from './services';
+import { Chart, YearsSelection } from './components';
+import { DataServiceContext, getDefaultYear, hgraphDataService } from './services';
 
 function App() {
     const [years, setYears] = useState<string[]>([]);
@@ -13,7 +13,7 @@ function App() {
             <h1 className={styles.h1}>Уровень воды в Рыбинском вдхр.</h1>
             <DataServiceContext.Provider value={hgraphDataService}>
                 <div className={styles.interface}>
-                    <div style={{width: '100%'}}>
+                    <div style={{ width: '100%' }}>
                         <Chart years={years}/>
                     </div>
                     <div>

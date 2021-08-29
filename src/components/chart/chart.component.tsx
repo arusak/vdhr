@@ -1,9 +1,9 @@
 import React from 'react';
-import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
-import {Level} from '../../services/levels.model';
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Level } from '../../services/levels.model';
 
 import styles from './chart.module.sass';
-import {labelFormatter} from './label-formatter';
+import { labelFormatter } from './label-formatter';
 
 export type LevelsByYearMap = Map<number, Level[]>;
 export type LevelsByDate = { date: string, [year: string]: any }
@@ -26,8 +26,8 @@ const colors: { [index: string]: string } = {
 const getYearColor = (year: string) => colors[year] || '#000000';
 
 export const ChartComponent = (props: ChartComponentProps) => {
-    const {data, years, width, height} = props;
-    const ticks = Array(12).fill(1).map((_, idx) => '01.' + Number(idx + 1).toLocaleString(undefined, {minimumIntegerDigits: 2}));
+    const { data, years, width, height } = props;
+    const ticks = Array(12).fill(1).map((_, idx) => '01.' + Number(idx + 1).toLocaleString(undefined, { minimumIntegerDigits: 2 }));
     return (
         <LineChart
             className={styles.lineChart}

@@ -6,7 +6,7 @@ export const labelFormatter = (v: any) => {
         try {
             const [dd, mm] = v.split('.').map(Number);
             const date = new Date(2020, mm - 1, dd);
-            res = date.toLocaleString('ru-RU', {month: 'long', day: 'numeric'});
+            res = date.toLocaleString('ru-RU', { month: 'long', day: 'numeric' });
         } catch (e) {
             res = '';
         }
