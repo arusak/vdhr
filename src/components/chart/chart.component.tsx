@@ -1,8 +1,9 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { Level } from 'services/levels.model';
-import { labelFormatter, getYearColor, getTimelineTicks } from './chart.utils';
+import { labelFormatter, getTimelineTicks } from './chart.utils';
 import styles from './chart.module.sass';
+import { getYearColor } from '../../utils/color.utils';
 
 export type LevelsByYearMap = Map<number, Level[]>;
 export type LevelsByDate = { date: string, [year: string]: any }

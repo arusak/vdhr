@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 import styles from './App.module.sass';
-import { Chart, YearsSelection } from './components';
+import { Chart, YearsSelector } from './components';
 import { DataServiceContext, getDefaultYear, hgraphDataService } from './services';
 
 function App() {
-    const [years, setYears] = useState<string[]>([]);
-    const defaultYear = String(getDefaultYear());
+    const [selectedYears, setSelectedYears] = useState([getDefaultYear()]);
 
     return (
         <div className={styles.app}>
@@ -14,10 +13,12 @@ function App() {
             <DataServiceContext.Provider value={hgraphDataService}>
                 <div className={styles.interface}>
                     <div style={{ width: '100%' }}>
-                        <Chart years={years}/>
+                        <Chart years={selectedYears}/>
                     </div>
                     <div>
-                        <YearsSelection handleChange={setYears} defaultYear={defaultYear}/>
+                        <YearsSelector
+                            onChange={setSelectedYears}
+                            selectedYears={selectedYears}/>
                     </div>
                 </div>
             </DataServiceContext.Provider>

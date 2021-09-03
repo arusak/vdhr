@@ -36,7 +36,7 @@ export const Chart = ({ years }: ChartProps) => {
             <AutoSizer>
                 {({ width, height }) =>
                     <ChartComponent data={chartData}
-                                    years={years.map(String)}
+                                    years={years}
                                     height={height}
                                     width={width}/>}
             </AutoSizer>
