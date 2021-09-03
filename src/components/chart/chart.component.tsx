@@ -21,9 +21,9 @@ export const ChartComponent = (props: ChartComponentProps) => {
         >
             <CartesianGrid strokeDasharray="1 1"/>
             <XAxis dataKey="date"
+                   axisLine={false}
                    ticks={ticks}/>
-            {/*<YAxis domain={[(min: number) => Math.round(min * 10 - 2) / 10, (max: number) => Math.round(max * 10 + 2) / 10]} />*/}
-            <YAxis domain={[98, 102]} tickCount={21}/>
+            <YAxis domain={[98, 102]} tickCount={21} axisLine={false}/>
             <Tooltip labelFormatter={labelFormatter}/>
             <Legend/>
             {years.map((year) => (
@@ -32,7 +32,10 @@ export const ChartComponent = (props: ChartComponentProps) => {
                       dataKey={year}
                       dot={false}
                       isAnimationActive={false}
-                      stroke={(getYearColor(year)) as string}/>
+                      connectNulls={true}
+                      stroke={getYearColor(year)}
+                      strokeWidth={1.5}
+                />
             ))}
         </LineChart>
     );
