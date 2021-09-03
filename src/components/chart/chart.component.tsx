@@ -25,7 +25,6 @@ export const ChartComponent = (props: ChartComponentProps) => {
                    ticks={ticks}/>
             <YAxis domain={[98, 102]} tickCount={21} axisLine={false}/>
             <Tooltip labelFormatter={labelFormatter}/>
-            <Legend/>
             {years.map((year) => (
                 <Line key={year}
                       type="monotone"
