@@ -22,9 +22,14 @@ export class HgraphDataService implements DataService {
     };
 
     private static async getLiveData(): Promise<Level[]> {
-        const response = await fetch('http://hgraph.ru/api/year/2021');
-        const data = await response.json();
-        return rawDataToSortedLevels(data, 2021, 2021);
+        try {
+            const response = await fetch('http://hgraph.ru/api/year/2021');
+            const data = await response.json();
+            return rawDataToSortedLevels(data, 2021, 2021);
+        } catch (e) {
+            console.warn('Couldn\'t get live data');
+            return Promise.resolve([]);
+        }
     }
 
     @Memoize()
