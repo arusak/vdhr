@@ -12,7 +12,7 @@ export const YearsSelector = ({ onChange, selectedYears }: YearsSelectorProps) =
     const [yearsList, setYearsList] = useState<string[]>([]);
     useEffect(() => {
         service.getYears().then(years => setYearsList(years.map(String)));
-    }, []);
+    }, [service]);
 
     return React.createElement(YearsSelectorComponent, { onChange, yearsList, selectedYears });
 };
