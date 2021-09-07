@@ -1,4 +1,4 @@
 export type Level = {
-    date: Date,
-    level: number
-}
+    date: Date;
+    level: number;
+};

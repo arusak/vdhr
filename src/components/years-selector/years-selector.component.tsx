@@ -8,9 +8,14 @@ type Props = {
     onExclude: (value: string) => void;
     yearsList: string[];
     selectedYears: string[];
-}
+};
 
-export const YearsSelectorComponent = ({ onInclude, onExclude, yearsList, selectedYears }: Props) => {
+export const YearsSelectorComponent = ({
+    onInclude,
+    onExclude,
+    yearsList,
+    selectedYears,
+}: Props) => {
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const { checked, value } = evt.target;
         checked ? onInclude(value) : onExclude(value);
@@ -18,11 +23,13 @@ export const YearsSelectorComponent = ({ onInclude, onExclude, yearsList, select
 
     return (
         <div className={styles.container}>
-            {yearsList.map(y => {
+            {yearsList.map((y) => {
                 const checked = selectedYears.includes(y);
                 const labelProps = {
                     className: `${styles.label} ${checked && styles.checked}`,
-                    style: { background: `${checked ? getYearColor(y) : 'none'}` },
+                    style: {
+                        background: `${checked ? getYearColor(y) : 'none'}`,
+                    },
                     key: y,
                 };
                 const checkboxProps = {
@@ -32,9 +39,11 @@ export const YearsSelectorComponent = ({ onInclude, onExclude, yearsList, select
                     checked,
                     onChange: handleChange,
                 };
-                return <label {...labelProps}>
-                    <input {...checkboxProps}/>{' '}{y}
-                </label>;
+                return (
+                    <label {...labelProps}>
+                        <input {...checkboxProps} /> {y}
+                    </label>
+                );
             })}
         </div>
     );

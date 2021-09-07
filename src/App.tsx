@@ -13,10 +13,10 @@ function App() {
                 <DataServiceContext.Provider value={hgraphDataService}>
                     <div className={styles.interface}>
                         <div style={{ width: '100%' }}>
-                            <Chart/>
+                            <Chart />
                         </div>
                         <div>
-                            <YearsSelector/>
+                            <YearsSelector />
                         </div>
                     </div>
                 </DataServiceContext.Provider>

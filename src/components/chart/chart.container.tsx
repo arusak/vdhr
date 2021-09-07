@@ -12,7 +12,8 @@ export const Chart = () => {
     const [{ selectedYears }] = useContext(StateContext);
 
     useEffect(() => {
-        service.getLevels()
+        service
+            .getLevels()
             .then(setLevels)
             .finally(() => setLoading(false));
     }, [service]);
@@ -20,7 +21,7 @@ export const Chart = () => {
     const chartData = levels.reduce<LevelsByDate[]>((res, observation) => {
         const dateStr = formatDate(observation.date, 'dd.MM');
         const yearStr = formatDate(observation.date, 'yyyy');
-        let levelsByDate = res.find(byDate => byDate.date === dateStr);
+        let levelsByDate = res.find((byDate) => byDate.date === dateStr);
         if (!levelsByDate) {
             levelsByDate = { date: dateStr };
             res.push(levelsByDate);
@@ -29,17 +30,18 @@ export const Chart = () => {
         return res;
     }, []);
 
-    return (
-        isLoading
-            ?
-            <div>Loading...</div>
-            :
-            <AutoSizer>
-                {({ width, height }) =>
-                    <ChartComponent data={chartData}
-                                    years={selectedYears}
-                                    height={height}
-                                    width={width}/>}
-            </AutoSizer>
+    return isLoading ? (
+        <div>Loading...</div>
+    ) : (
+        <AutoSizer>
+            {({ width, height }) => (
+                <ChartComponent
+                    data={chartData}
+                    years={selectedYears}
+                    height={height}
+                    width={width}
+                />
+            )}
+        </AutoSizer>
     );
 };

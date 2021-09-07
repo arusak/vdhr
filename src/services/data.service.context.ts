@@ -10,4 +10,5 @@ export interface DataService {
 }
 
 export const hgraphDataService = new HgraphDataService();
-export const DataServiceContext = React.createContext<DataService>(hgraphDataService);
+export const DataServiceContext =
+    React.createContext<DataService>(hgraphDataService);

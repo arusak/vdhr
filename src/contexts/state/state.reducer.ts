@@ -1,19 +1,17 @@
 export type State = {
     selectedYears: string[];
-}
+};
 
 export class IncludeYearAction {
     readonly type = 'IncludeYear';
 
-    constructor(readonly value: string) {
-    }
+    constructor(readonly value: string) {}
 }
 
 export class ExcludeYearAction {
     readonly type = 'ExcludeYear';
 
-    constructor(readonly value: string) {
-    }
+    constructor(readonly value: string) {}
 }
 
 export type Action = IncludeYearAction | ExcludeYearAction;
@@ -29,7 +27,9 @@ export const reducer = (state: State, action: Action) => {
         case 'ExcludeYear':
             return {
                 ...state,
-                selectedYears: state.selectedYears.filter(y => y !== action.value),
+                selectedYears: state.selectedYears.filter(
+                    (y) => y !== action.value,
+                ),
             };
 
         default:

@@ -5,21 +5,26 @@ import archive2020 from '../data/ryb2020.json';
 import { DataService } from './data.service.context';
 import { Level } from './levels.model';
 import { statisticService } from './statistic.service';
-import { parseApiDate, isValidDate, parseDate, diffDates, parseArchiveDate } from '../utils/date.utils';
+import {
+    parseApiDate,
+    isValidDate,
+    diffDates,
+    parseArchiveDate,
+} from '../utils/date.utils';
 
 type HgraphDataItem = {
     date: string;
     items: { [key: string]: number[] };
-}
+};
 
-type Archive = { [key: string]: number }
+type Archive = { [key: string]: number };
 
 export class HgraphDataService implements DataService {
     private static getCachedData(): Level[] {
         const until2020 = cachedDataToSortedLevels(archive, 2014, 2019);
         const in2020 = cachedDataToSortedLevels(archive2020, 2020, 2020);
         return [...until2020, ...in2020];
-    };
+    }
 
     private static async getLiveData(): Promise<Level[]> {
         try {
@@ -27,7 +32,7 @@ export class HgraphDataService implements DataService {
             const data = await response.json();
             return rawDataToSortedLevels(data, 2021, 2021);
         } catch (e) {
-            console.warn('Couldn\'t get live data');
+            console.warn("Couldn't get live data");
             return Promise.resolve([]);
         }
     }
@@ -35,25 +40,34 @@ export class HgraphDataService implements DataService {
     @Memoize()
     getLevels(): Promise<Level[]> {
         return HgraphDataService.getLiveData()
-            .then(liveData => HgraphDataService.getCachedData().concat(liveData))
+            .then((liveData) =>
+                HgraphDataService.getCachedData().concat(liveData),
+            )
             .then(statisticService.smoothenLevels);
     }
 
     @Memoize()
     async getYears(): Promise<number[]> {
         const levels = await this.getLevels();
-        const yearsMap = levels.reduce<LevelsByYearMap>((map: LevelsByYearMap, cur: Level) => {
-            const year = cur.date.getFullYear();
-            const levels = map.get(year) || map.set(year, []).get(year);
-            levels!.push(cur);
-            return map;
-        }, new Map());
+        const yearsMap = levels.reduce<LevelsByYearMap>(
+            (map: LevelsByYearMap, cur: Level) => {
+                const year = cur.date.getFullYear();
+                const levels = map.get(year) || map.set(year, []).get(year);
+                levels!.push(cur);
+                return map;
+            },
+            new Map(),
+        );
 
         return [...yearsMap.keys()];
     }
 }
 
-function rawDataToSortedLevels(typedData: HgraphDataItem[], startYear: number, endYear: number) {
+function rawDataToSortedLevels(
+    typedData: HgraphDataItem[],
+    startYear: number,
+    endYear: number,
+) {
     const rybinskData = typedData.reduce((map, item) => {
         const ryb = item.items['Рыбинское'];
         if (ryb) {
@@ -63,15 +77,21 @@ function rawDataToSortedLevels(typedData: HgraphDataItem[], startYear: number, e
     }, new Map<string, number>());
     const dataArray = Array.from(rybinskData.entries());
 
-    const convertedArray = dataArray.map(([date, level]) => ({
-        date: parseApiDate(date),
-        level,
-    })).filter(item => isValidDate(item.date, [startYear, endYear]));
+    const convertedArray = dataArray
+        .map(([date, level]) => ({
+            date: parseApiDate(date),
+            level,
+        }))
+        .filter((item) => isValidDate(item.date, [startYear, endYear]));
 
     return convertedArray.sort((o1, o2) => diffDates(o1.date, o2.date) || 0);
 }
 
-function cachedDataToSortedLevels(archive: Archive, startYear: number, endYear: number) {
+function cachedDataToSortedLevels(
+    archive: Archive,
+    startYear: number,
+    endYear: number,
+) {
     const dataArray = Array.from(Object.entries(archive));
 
     const convertedArray = dataArray
