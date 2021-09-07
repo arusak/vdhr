@@ -2,18 +2,18 @@ import React from 'react';
 
 import styles from './years-selector.module.sass';
 import { getYearColor } from '../../utils/color.utils';
-import { YearsSelectorProps } from './years-selector.container';
 
-type Props = YearsSelectorProps & {
+type Props = {
+    onInclude: (value: string) => void;
+    onExclude: (value: string) => void;
     yearsList: string[];
     selectedYears: string[];
 }
 
-export const YearsSelectorComponent = ({onChange,yearsList,selectedYears}:Props)=>{
+export const YearsSelectorComponent = ({ onInclude, onExclude, yearsList, selectedYears }: Props) => {
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const { checked, value } = evt.target;
-        const updatedYears = checked ? [...selectedYears, value] : selectedYears.filter(y => y !== value);
-        onChange(updatedYears);
+        checked ? onInclude(value) : onExclude(value);
     };
 
     return (
@@ -38,6 +38,6 @@ export const YearsSelectorComponent = ({onChange,yearsList,selectedYears}:Props)
             })}
         </div>
     );
-}
+};
 
 

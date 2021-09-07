@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { Level } from 'services/levels.model';
 import { labelFormatter, getTimelineTicks } from './chart.utils';
 import styles from './chart.module.sass';

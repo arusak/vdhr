@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DataServiceContext } from '../../services';
 import { YearsSelectorComponent } from './years-selector.component';
+import { StateContext } from '../../contexts/state/state.context';
+import { ExcludeYearAction, IncludeYearAction } from '../../contexts/state/state.reducer';
 
-export type YearsSelectorProps = {
-    onChange: (selectedYears: string[]) => void;
-    selectedYears: string[];
-}
-
-export const YearsSelector = ({ onChange, selectedYears }: YearsSelectorProps) => {
+export const YearsSelector = () => {
     const service = useContext(DataServiceContext);
     const [yearsList, setYearsList] = useState<string[]>([]);
+    const [{ selectedYears }, dispatch] = useContext(StateContext);
     useEffect(() => {
         service.getYears().then(years => setYearsList(years.map(String)));
     }, [service]);
 
-    return React.createElement(YearsSelectorComponent, { onChange, yearsList, selectedYears });
+    const onInclude = (year: string) => dispatch(new IncludeYearAction(year));
+    const onExclude = (year: string) => dispatch(new ExcludeYearAction(year));
+
+    return React.createElement(YearsSelectorComponent, { onInclude, onExclude, yearsList, selectedYears });
 };

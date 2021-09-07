@@ -2,13 +2,14 @@ import React, { useContext, useState, useEffect } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { DataServiceContext, Level } from '../../services';
 import { ChartComponent, LevelsByDate } from './chart.component';
+import { StateContext } from '../../contexts/state/state.context';
 
-type ChartProps = { years: string[] };
-
-export const Chart = ({ years }: ChartProps) => {
+export const Chart = () => {
     const service = useContext(DataServiceContext);
     const [levels, setLevels] = useState<Level[]>([]);
     const [isLoading, setLoading] = useState(true);
+    const [{ selectedYears }] = useContext(StateContext);
+    console.log(selectedYears);
 
     useEffect(() => {
         service.getLevels()
@@ -36,7 +37,7 @@ export const Chart = ({ years }: ChartProps) => {
             <AutoSizer>
                 {({ width, height }) =>
                     <ChartComponent data={chartData}
-                                    years={years}
+                                    years={selectedYears}
                                     height={height}
                                     width={width}/>}
             </AutoSizer>
