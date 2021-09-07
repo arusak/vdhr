@@ -14,14 +14,17 @@
       &:before
         position: absolute
         top: 50%
-        left: -1rem
         content: ''
-        border: 0.5rem solid transparent
-        border-right-color: white
+        transform: rotate(45deg)
+        background: white
+        width: 1.5rem
+        height: 1.5rem
+        box-shadow: 0.25rem 0.5rem 0.75rem rgba(0, 0, 0, 0.15)
+        z-index: -1
 
     .recharts-tooltip-label
       text-align: left !important
-      padding: 0.5rem 1rem
+      padding: 0.75rem 1rem 0.25rem
 
     .recharts-tooltip-item-list
       padding: 0.5rem 0 !important
@@ -40,3 +43,11 @@
 
       .recharts-tooltip-item-value
         font-weight: bold
+
+  .recharts-tooltip-wrapper-right
+    .recharts-default-tooltip:before
+      left: -0.5rem
+
+  .recharts-tooltip-wrapper-left
+    .recharts-default-tooltip:before
+      right: -0.5rem

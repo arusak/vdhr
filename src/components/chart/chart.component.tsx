@@ -62,7 +62,7 @@ export const ChartComponent = (props: ChartComponentProps) => {
                 tick={<MonthTick />}
             />
             <YAxis domain={[98, 102]} tickCount={21} axisLine={false} />
-            <Tooltip labelFormatter={labelFormatter} />
+            <Tooltip labelFormatter={labelFormatter} isAnimationActive={false}  />
             {years.map((year) => (
                 <Line
                     key={year}
