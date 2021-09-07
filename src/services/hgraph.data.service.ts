@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { Memoize } from 'typescript-memoize';
 import { LevelsByYearMap } from '../components/chart/chart.component';
 import archive from '../data/ryb2019.json';
@@ -6,6 +5,7 @@ import archive2020 from '../data/ryb2020.json';
 import { DataService } from './data.service.context';
 import { Level } from './levels.model';
 import { statisticService } from './statistic.service';
+import { parseApiDate, isValidDate, parseDate, diffDates, parseArchiveDate } from '../utils/date.utils';
 
 type HgraphDataItem = {
     date: string;
@@ -43,7 +43,7 @@ export class HgraphDataService implements DataService {
     async getYears(): Promise<number[]> {
         const levels = await this.getLevels();
         const yearsMap = levels.reduce<LevelsByYearMap>((map: LevelsByYearMap, cur: Level) => {
-            const year = cur.date.year;
+            const year = cur.date.getFullYear();
             const levels = map.get(year) || map.set(year, []).get(year);
             levels!.push(cur);
             return map;
@@ -64,25 +64,22 @@ function rawDataToSortedLevels(typedData: HgraphDataItem[], startYear: number, e
     const dataArray = Array.from(rybinskData.entries());
 
     const convertedArray = dataArray.map(([date, level]) => ({
-        date: DateTime.fromFormat(date, 'dd.MM.yyyy'),
+        date: parseApiDate(date),
         level,
-    })).filter(item => item.date.isValid).filter(item => item.date.year >= startYear && item.date.year <= endYear);
+    })).filter(item => isValidDate(item.date, [startYear, endYear]));
 
-    return convertedArray.sort((o1, o2) => {
-        return o1.date.diff(o2.date).toObject().milliseconds || 0;
-    });
+    return convertedArray.sort((o1, o2) => diffDates(o1.date, o2.date) || 0);
 }
 
 function cachedDataToSortedLevels(archive: Archive, startYear: number, endYear: number) {
     const dataArray = Array.from(Object.entries(archive));
 
-    const convertedArray = dataArray.map(([date, level]) => ({
-        date: DateTime.fromFormat(date, 'yyyy-MM-dd'),
-        level,
-    })).filter(item => item.date.isValid).filter(item => item.date.year >= startYear && item.date.year <= endYear);
+    const convertedArray = dataArray
+        .map(([date, level]) => ({
+            date: parseArchiveDate(date),
+            level,
+        }))
+        .filter((item) => isValidDate(item.date, [startYear, endYear]));
 
-    return convertedArray.sort((o1, o2) => {
-        return o1.date.diff(o2.date).toObject().milliseconds || 0;
-    });
-
+    return convertedArray.sort((o1, o2) => diffDates(o1.date, o2.date) || 0);
 }
