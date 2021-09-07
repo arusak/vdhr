@@ -1,9 +1,8 @@
 import { Memoize } from 'typescript-memoize';
-import { LevelsByYearMap } from '../components/chart/chart.component';
 import archive from '../data/ryb2019.json';
 import archive2020 from '../data/ryb2020.json';
 import { DataService } from './data.service.context';
-import { Level } from './levels.model';
+import { Observation } from './observation.model';
 import { statisticService } from './statistic.service';
 import {
     parseApiDate,
@@ -20,17 +19,17 @@ type HgraphDataItem = {
 type Archive = { [key: string]: number };
 
 export class HgraphDataService implements DataService {
-    private static getCachedData(): Level[] {
-        const until2020 = cachedDataToSortedLevels(archive, 2014, 2019);
-        const in2020 = cachedDataToSortedLevels(archive2020, 2020, 2020);
+    private static getCachedData(): Observation[] {
+        const until2020 = cachedDataToSortedObservations(archive, 2014, 2019);
+        const in2020 = cachedDataToSortedObservations(archive2020, 2020, 2020);
         return [...until2020, ...in2020];
     }
 
-    private static async getLiveData(): Promise<Level[]> {
+    private static async getLiveData(): Promise<Observation[]> {
         try {
             const response = await fetch('http://hgraph.ru/api/year/2021');
             const data = await response.json();
-            return rawDataToSortedLevels(data, 2021, 2021);
+            return rawDataToSortedObservations(data, 2021, 2021);
         } catch (e) {
             console.warn("Couldn't get live data");
             return Promise.resolve([]);
@@ -38,7 +37,7 @@ export class HgraphDataService implements DataService {
     }
 
     @Memoize()
-    getLevels(): Promise<Level[]> {
+    getObservations(): Promise<Observation[]> {
         return HgraphDataService.getLiveData()
             .then((liveData) =>
                 HgraphDataService.getCachedData().concat(liveData),
@@ -48,26 +47,21 @@ export class HgraphDataService implements DataService {
 
     @Memoize()
     async getYears(): Promise<number[]> {
-        const levels = await this.getLevels();
-        const yearsMap = levels.reduce<LevelsByYearMap>(
-            (map: LevelsByYearMap, cur: Level) => {
-                const year = cur.date.getFullYear();
-                const levels = map.get(year) || map.set(year, []).get(year);
-                levels!.push(cur);
-                return map;
-            },
-            new Map(),
+        const observations = await this.getObservations();
+        const yearsSet = observations.reduce<Set<number>>(
+            (set, cur) => set.add(cur.date.getFullYear()),
+            new Set(),
         );
 
-        return [...yearsMap.keys()];
+        return [...yearsSet.keys()];
     }
 }
 
-function rawDataToSortedLevels(
+function rawDataToSortedObservations(
     typedData: HgraphDataItem[],
     startYear: number,
     endYear: number,
-) {
+): Observation[] {
     const rybinskData = typedData.reduce((map, item) => {
         const ryb = item.items['Рыбинское'];
         if (ryb) {
@@ -87,11 +81,11 @@ function rawDataToSortedLevels(
     return convertedArray.sort((o1, o2) => diffDates(o1.date, o2.date) || 0);
 }
 
-function cachedDataToSortedLevels(
+function cachedDataToSortedObservations(
     archive: Archive,
     startYear: number,
     endYear: number,
-) {
+): Observation[] {
     const dataArray = Array.from(Object.entries(archive));
 
     const convertedArray = dataArray

@@ -1,10 +1,10 @@
-import { Level } from './levels.model';
+import { Observation } from './observation.model';
 
 class StatisticService {
     /**
      * Check if
      */
-    readonly smoothenLevels = (levels: Level[]): Level[] => {
+    readonly smoothenLevels = (levels: Observation[]): Observation[] => {
         return levels.map((val, idx) => {
             const isLast = idx === levels.length - 1;
             const isFirst = idx === 0;

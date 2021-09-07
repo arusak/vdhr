@@ -1,25 +1,25 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { ChartComponent, LevelsByDate } from './chart.component';
+import { ChartComponent, ChartData } from './chart.component';
 import { StateContext } from '../../contexts/state/state.context';
-import { DataServiceContext, Level } from '../../services';
-import { formatDate, diffDates, parseDate } from '../../utils/date.utils';
+import { DataServiceContext, Observation } from '../../services';
+import { formatDate } from '../../utils/date.utils';
 
 export const Chart = () => {
     const service = useContext(DataServiceContext);
-    const [levels, setLevels] = useState<Level[]>([]);
+    const [observations, setObservations] = useState<Observation[]>([]);
     const [isLoading, setLoading] = useState(true);
     const [{ selectedYears }] = useContext(StateContext);
 
     useEffect(() => {
         service
-            .getLevels()
-            .then(setLevels)
+            .getObservations()
+            .then(setObservations)
             .finally(() => setLoading(false));
     }, [service]);
 
-    const chartData = levels
-        .reduce<LevelsByDate[]>((res, observation) => {
+    const chartData = observations
+        .reduce<ChartData[]>((res, observation) => {
             const dateStr = formatDate(observation.date, 'dd.MM');
             const yearStr = formatDate(observation.date, 'yyyy');
             let levelsByDate = res.find((byDate) => byDate.date === dateStr);

@@ -7,16 +7,14 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { Level } from 'services/levels.model';
 import { labelFormatter, getTimelineTicks } from './chart.utils';
 import styles from './chart.module.sass';
 import { getYearColor } from '../../utils/color.utils';
 import { formatDate, parseDate } from '../../utils/date.utils';
 
-export type LevelsByYearMap = Map<number, Level[]>;
-export type LevelsByDate = { date: string; [year: string]: any };
-export type ChartComponentProps = {
-    data: LevelsByDate[];
+export type ChartData = { date: string; [year: string]: any };
+export type ChartProps = {
+    data: ChartData[];
     years: string[];
     width: number;
     height: number;
@@ -43,7 +41,7 @@ const MonthTick = (props: any) => {
     return <text {...textProps}>{label}</text>;
 };
 
-export const ChartComponent = (props: ChartComponentProps) => {
+export const ChartComponent = (props: ChartProps) => {
     const { data, years, width, height } = props;
     const ticks = getTimelineTicks();
     return (
@@ -62,7 +60,10 @@ export const ChartComponent = (props: ChartComponentProps) => {
                 tick={<MonthTick />}
             />
             <YAxis domain={[98, 102]} tickCount={21} axisLine={false} />
-            <Tooltip labelFormatter={labelFormatter} isAnimationActive={false}  />
+            <Tooltip
+                labelFormatter={labelFormatter}
+                isAnimationActive={false}
+            />
             {years.map((year) => (
                 <Line
                     key={year}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { HgraphDataService } from './hgraph.data.service';
 
-import { Level } from './levels.model';
+import { Observation } from './observation.model';
 
 export interface DataService {
-    getLevels(): Promise<Level[]>;
+    getObservations(): Promise<Observation[]>;
 
     getYears(): Promise<number[]>;
 }

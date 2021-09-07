@@ -1,4 +1,4 @@
-export type Level = {
+export type Observation = {
     date: Date;
     level: number;
 };
