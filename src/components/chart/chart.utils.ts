@@ -19,12 +19,11 @@ export const labelFormatter = (v: any) => {
 };
 
 export const getTimelineTicks = () =>
-    Array(12)
-        .fill(1)
-        .map(
-            (_, idx) =>
-                '01.' +
-                Number(idx + 1).toLocaleString(undefined, {
-                    minimumIntegerDigits: 2,
-                }),
-        );
+    Array.from(
+        { length: 12 },
+        (_, idx) =>
+            '01.' +
+            Number(idx + 1).toLocaleString(undefined, {
+                minimumIntegerDigits: 2,
+            }),
+    );

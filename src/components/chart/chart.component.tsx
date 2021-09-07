@@ -11,6 +11,7 @@ import { Level } from 'services/levels.model';
 import { labelFormatter, getTimelineTicks } from './chart.utils';
 import styles from './chart.module.sass';
 import { getYearColor } from '../../utils/color.utils';
+import { formatDate, parseDate } from '../../utils/date.utils';
 
 export type LevelsByYearMap = Map<number, Level[]>;
 export type LevelsByDate = { date: string; [year: string]: any };
@@ -19,6 +20,27 @@ export type ChartComponentProps = {
     years: string[];
     width: number;
     height: number;
+};
+
+const MonthTick = (props: any) => {
+    const {
+        x,
+        y,
+        payload: { value },
+        width,
+        height,
+        fill,
+    } = props;
+    const date = parseDate(value, 'dd.MM');
+    const label = formatDate(date, 'MMM');
+    const textProps = {
+        x: width / 24 + x,
+        y: height / 2 - 18 + y,
+        dominantBaseline: 'middle',
+        textAnchor: 'middle',
+        fill,
+    };
+    return <text {...textProps}>{label}</text>;
 };
 
 export const ChartComponent = (props: ChartComponentProps) => {
@@ -31,8 +53,14 @@ export const ChartComponent = (props: ChartComponentProps) => {
             height={height}
             data={data}
         >
-            <CartesianGrid strokeDasharray="1 1" />
-            <XAxis dataKey="date" axisLine={false} ticks={ticks} />
+            <CartesianGrid strokeDasharray="3 5" />
+            <XAxis
+                orientation="top"
+                dataKey="date"
+                axisLine={false}
+                ticks={ticks}
+                tick={<MonthTick />}
+            />
             <YAxis domain={[98, 102]} tickCount={21} axisLine={false} />
             <Tooltip labelFormatter={labelFormatter} />
             {years.map((year) => (
