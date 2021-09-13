@@ -59,7 +59,7 @@ export const ChartComponent = (props: ChartProps) => {
                 ticks={ticks}
                 tick={<MonthTick />}
             />
-            <YAxis domain={[98, 102]} tickCount={21} axisLine={false} />
+            <YAxis domain={[98.4, 102]} tickCount={19} axisLine={false} />
             <Tooltip
                 labelFormatter={labelFormatter}
                 isAnimationActive={false}
