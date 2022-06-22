@@ -27,9 +27,11 @@ export class HgraphDataService implements DataService {
 
     private static async getLiveData(): Promise<Observation[]> {
         try {
-            const response = await fetch('http://hgraph.ru/api/year/2021');
-            const data = await response.json();
-            return rawDataToSortedObservations(data, 2021, 2021);
+            const response2021 = await fetch('http://hgraph.ru/api/year/2021');
+            const response2022 = await fetch('http://hgraph.ru/api/year/2022');
+            const data2021 = await response2021.json();
+            const data2022 = await response2022.json();
+            return rawDataToSortedObservations([...data2021,...data2022], 2021, 2022);
         } catch (e) {
             console.warn("Couldn't get live data");
             return Promise.resolve([]);
